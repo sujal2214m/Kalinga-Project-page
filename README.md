@@ -1,92 +1,82 @@
-# Kalinga University Lab Manual Front Page Generator
+# Kalinga University Practical & Assignment Cover Page Generator
 
-A simple, responsive web application that allows Kalinga University students to create professional lab manual cover pages by entering their academic and personal details. Preview the cover page and download it as a print-ready A4 PDF.
+A free, browser-based tool to create customized, print-ready A4 cover pages for practical files and assignments at Kalinga University.
 
-## 🌐 Live Demo
+Choose a cover design, enter your academic and student details, preview the result, and download it as a PDF.
 
-**[Open Lab Manual Front Page Generator](https://sujal2214m.github.io/Kalinga-Project-page/)**
+🔗 **Live Demo:** https://sujal2214m.github.io/Kalinga-Project-page/
 
 ## ✨ Features
 
-- **Easy-to-use form:** Enter academic and student details through a simple interface.
-- **Course Information:** Add session, semester, practical subject, program, course code, and faculty name.
-- **Student Information:** Enter name, roll number, and enrollment number.
-- **Live Preview:** Preview the cover page before downloading.
-- **PDF Export:** Download your generated cover page in A4 format, ready for printing.
-- **Clear Details:** Reset the form and start again.
-- **Responsive Design:** Works across desktop and mobile screen sizes.
-- **University Branding:** Designed with Kalinga University branding.
+* **Practical or Assignment:** Select the type of cover page you need.
+* **7 Cover Designs:** Choose from Circuit, Ocean, Hexagon, Blueprint, Sunrise, Confetti, and Classic.
+* **Live Preview:** See your cover page update as you enter your details.
+* **A4 PDF Download:** Generate a print-ready PDF directly in your browser.
+* **Academic Details:** Add session, semester, subject name, program, subject code, and faculty name.
+* **Student Details:** Add your name, enrollment number, and optional roll number.
+* **Remembered Preferences:** Form details and selected cover preferences are saved in your browser.
+* **Clear Personal Details:** Clear your name, roll number, and enrollment number when needed.
+* **Responsive Layout:** Use the tool on desktop or mobile devices.
+
+## 🖼️ Cover Designs
+
+| Design    | Design  | Design   |
+| --------- | ------- | -------- |
+| Circuit   | Ocean   | Hexagon  |
+| Blueprint | Sunrise | Confetti |
+| Classic   |         |          |
+
+## 🚀 How to Use
+
+1. Open the [Live Demo](https://sujal2214m.github.io/Kalinga-Project-page/).
+2. Select **Practical** or **Assignment**.
+3. Choose one of the available cover designs.
+4. Fill in your course and student details.
+5. Check the live preview.
+6. Click **Download PDF** to save your A4 cover page.
+7. Print the downloaded PDF and attach it to your practical file or assignment.
+
+> The session, semester, subject, program, subject code, faculty name, student name, and enrollment number are required to download the PDF. Roll number is optional.
 
 ## 🛠️ Built With
 
-- HTML5
-- CSS3
-- JavaScript
-- HTML Canvas
-- GitHub Pages
+* HTML5
+* CSS3
+* JavaScript
+* HTML Canvas for cover rendering and preview
+* Browser APIs for PDF generation and local storage
+* Google Fonts
 
-## 📋 How to Use
+No backend or account registration is required.
 
-1. Open the [Live Website](https://sujal2214m.github.io/Kalinga-Project-page/).
-2. Enter your course details:
-   - Academic session
-   - Semester
-   - Practical subject
-   - Program
-   - Course code
-   - Submitted to (faculty name)
-3. Enter your personal details:
-   - Full name
-   - Roll number
-   - Enrollment number
-4. Check the cover page preview.
-5. Click **Download PDF** to save your A4 lab manual cover page.
-6. Print the downloaded PDF and attach it to your lab file.
+## 💻 Run Locally
 
-## 🚀 Run Locally
-
-### 1. Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/sujal2214m/Kalinga-Project-page.git
 ```
 
-### 2. Navigate to the project directory
+Open the project folder and launch the HTML file in your browser.
 
-```bash
-cd Kalinga-Project-page
-```
+The application runs in the browser and uses JavaScript to render the cover page and generate the PDF.
 
-### 3. Open the project
+## 📌 Project Purpose
 
-Open `index.html` in your browser.
-
-No backend server or database is required for the basic application.
-
-## 📁 Project Structure
-
-```text
-Kalinga-Project-page/
-│
-├── index.html       # Main application
-└── README.md        # Project documentation
-```
-
-## 🎯 Project Objective
-
-The objective of this project is to simplify the process of creating lab manual front pages for university students by providing a convenient, accessible, and print-ready digital solution.
+This project is designed to make preparing practical and assignment cover pages easier for Kalinga University students. It provides reusable cover designs and a quick way to create a consistent, printable cover page without manually designing one each time.
 
 ## 👨‍💻 Developer
 
 **Sujal Kumar Chandravanshi**
+B.Tech CSE (AI & ML) Student
 
-- GitHub: [@sujal2214m](https://github.com/sujal2214m)
-- LinkedIn: [Sujal Chandravanshi](https://www.linkedin.com/in/sujal2214m/)
+* GitHub: https://github.com/sujal2214m
+* LinkedIn: https://www.linkedin.com/in/sujal2214m/
+
+## 💬 Feedback & Contributions
+
+If you encounter a bug or problem, or have an idea for an additional feature, feel free to reach out or open an issue in the repository. Feedback and suggestions are welcome!
 
 ## 📄 License
 
 This project is available for educational and personal use. Please contact the author for other licensing or reuse permissions.
-
----
-
-Made with ❤️ for Kalinga University students.
