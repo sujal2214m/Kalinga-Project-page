@@ -1,82 +1,104 @@
-# Kalinga University Practical & Assignment Cover Page Generator
+# Kalinga University Practical / Assignment Cover Page Generator
 
-A free, browser-based tool to create customized, print-ready A4 cover pages for practical files and assignments at Kalinga University.
+A free, browser-based cover page generator for Kalinga University students.
 
-Choose a cover design, enter your academic and student details, preview the result, and download it as a PDF.
+Create professional and print-ready **Practical** or **Assignment** cover pages by entering your academic and student details, selecting a design theme and font, previewing the result, and downloading it as an A4 PDF.
 
-🔗 **Live Demo:** https://sujal2214m.github.io/Kalinga-Project-page/
+🔗 **Live Demo:**  
+https://sujal2214m.github.io/Kalinga-Project-page/
+
+---
 
 ## ✨ Features
 
-* **Practical or Assignment:** Select the type of cover page you need.
-* **7 Cover Designs:** Choose from Circuit, Ocean, Hexagon, Blueprint, Sunrise, Confetti, and Classic.
-* **Live Preview:** See your cover page update as you enter your details.
-* **A4 PDF Download:** Generate a print-ready PDF directly in your browser.
-* **Academic Details:** Add session, semester, subject name, program, subject code, and faculty name.
-* **Student Details:** Add your name, enrollment number, and optional roll number.
-* **Remembered Preferences:** Form details and selected cover preferences are saved in your browser.
-* **Clear Personal Details:** Clear your name, roll number, and enrollment number when needed.
-* **Responsive Layout:** Use the tool on desktop or mobile devices.
+- 📘 Create **Practical** cover pages
+- 📝 Create **Assignment** cover pages
+- 🎨 Multiple cover page themes
+- 🔤 Multiple font styles
+- 👀 Real-time cover page preview
+- 📄 A4 print-ready PDF generation
+- 💾 Download cover page directly from the browser
+- 🧑‍🎓 Student information fields
+- 🏫 Course and academic information fields
+- 📱 Responsive design for desktop and mobile
+- 🧹 Clear personal details option
+- ⚡ No backend or database required
+- 🔒 Data processing happens in the browser
 
-## 🖼️ Cover Designs
+---
 
-| Design    | Design  | Design   |
-| --------- | ------- | -------- |
-| Circuit   | Ocean   | Hexagon  |
-| Blueprint | Sunrise | Confetti |
-| Classic   |         |          |
+## 🎨 Available Themes
 
-## 🚀 How to Use
+The generator currently includes the following cover designs:
 
-1. Open the [Live Demo](https://sujal2214m.github.io/Kalinga-Project-page/).
-2. Select **Practical** or **Assignment**.
-3. Choose one of the available cover designs.
-4. Fill in your course and student details.
-5. Check the live preview.
-6. Click **Download PDF** to save your A4 cover page.
-7. Print the downloaded PDF and attach it to your practical file or assignment.
+| Theme | Style |
+|---|---|
+| **Circuit** | Technical / Engineering |
+| **Ocean** | Modern blue design |
+| **Hexagon** | Geometric design |
+| **Blueprint** | Engineering blueprint style |
+| **Sunrise** | Warm decorative design |
+| **Confetti** | Colorful design |
+| **Classic** | Traditional framed design |
 
-> The session, semester, subject, program, subject code, faculty name, student name, and enrollment number are required to download the PDF. Roll number is optional.
+The themes are rendered dynamically using HTML Canvas. :chatgpt-content-reference{index="1"}
 
-## 🛠️ Built With
+---
 
-* HTML5
-* CSS3
-* JavaScript
-* HTML Canvas for cover rendering and preview
-* Browser APIs for PDF generation and local storage
-* Google Fonts
+## 🔤 Font Options
 
-No backend or account registration is required.
+Users can also select different typography styles:
 
-## 💻 Run Locally
+- Handwritten (Original)
+- Times New Roman
+- Georgia
+- Garamond
+- Arial
+- Calibri
 
-Clone the repository:
+The project loads fonts such as Outfit, Comic Relief, Comic Neue, EB Garamond and Carlito for the cover-page rendering. :chatgpt-content-reference{index="2"}
 
-```bash
-git clone https://github.com/sujal2214m/Kalinga-Project-page.git
-```
+---
 
-Open the project folder and launch the HTML file in your browser.
+## 📋 Information You Can Enter
 
-The application runs in the browser and uses JavaScript to render the cover page and generate the PDF.
+### Course Details
 
-## 📌 Project Purpose
+- Session
+- Semester
+- Practical / Assignment
+- Subject Name
+- Program
+- Course Code
+- Faculty / Teacher Name
 
-This project is designed to make preparing practical and assignment cover pages easier for Kalinga University students. It provides reusable cover designs and a quick way to create a consistent, printable cover page without manually designing one each time.
+### Student Details
 
-## 👨‍💻 Developer
+- Student Name
+- Roll Number
+- Enrollment Number
 
-**Sujal Kumar Chandravanshi**
-B.Tech CSE (AI & ML) Student
+The generated cover automatically formats the entered information for the selected design. :chatgpt-content-reference{index="3"}
 
-* GitHub: https://github.com/sujal2214m
-* LinkedIn: https://www.linkedin.com/in/sujal2214m/
+---
 
-## 💬 Feedback & Contributions
+## 👀 Live Preview
 
-If you encounter a bug or problem, or have an idea for an additional feature, feel free to reach out or open an issue in the repository. Feedback and suggestions are welcome!
+The cover page is displayed in real time while entering information.
 
-## 📄 License
+The preview uses an A4 aspect ratio and is rendered through an HTML `<canvas>` element. :chatgpt-content-reference{index="4"}
 
-This project is available for educational and personal use. Please contact the author for other licensing or reuse permissions.
+This allows students to check the final design before downloading the PDF.
+
+---
+
+## 📄 PDF Generation
+
+The application generates the cover page as a **print-ready A4 PDF** directly in the browser.
+
+No server-side PDF generation is required.
+
+The cover is rendered at:
+
+```text
+2480 × 3508 px
