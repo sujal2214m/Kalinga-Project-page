@@ -148,13 +148,7 @@ The application uses browser `localStorage` to remember selected preferences, su
 
 ---
 
-## 📊 Google Analytics
 
-The website includes **Google Analytics 4 (GA4)** using Google's `gtag.js` implementation to measure basic website usage and help improve the project.
-
-The public website is already configured, so users do not need to enter or configure Analytics settings to use the generator.
-
----
 
 ## 🔒 Privacy
 
