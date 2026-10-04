@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0CG9DP0FQ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0CG9DP0FQ5');
+</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#04386c">
@@ -11,18 +20,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&amp;family=Carlito:wght@400;700&amp;display=swap" rel="stylesheet">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0CG9DP0FQ5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-0CG9DP0FQ5');
-</script>
-  
-  
-  <style>
+<style>
   :root {
     --navy: #04386c;
     --navy-2: #0a4a8a;
@@ -120,6 +118,25 @@
   }
   select:invalid { color: #93a1b3; }
   select option { color: var(--ink); }
+  input[type="file"] {
+    height: auto;
+    padding: 9px 10px;
+    font-size: 14px;
+    background: #fff;
+  }
+  input[type="file"]::file-selector-button {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    background: #eef3f9;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  input[type="file"]::file-selector-button:hover { background: #e3ecf6; }
   input.caps { text-transform: uppercase; }
   input::placeholder { color: #93a1b3; text-transform: none; }
   input:hover, select:hover { border-color: #8ea0b6; }
@@ -218,6 +235,37 @@
 
 <main class="wrap">
   <form id="f" class="panel" novalidate autocomplete="off">
+    <fieldset>
+      <legend>Institution branding</legend>
+      <p class="note">Generating this for Kalinga University, or another college?</p>
+
+      <div class="field" style="margin-top:0">
+        <span class="lbl" id="inst-l">Cover branding</span>
+        <div class="seg" role="radiogroup" aria-labelledby="inst-l">
+          <label><input type="radio" name="inst" value="kalinga" checked><span>Kalinga University</span></label>
+          <label><input type="radio" name="inst" value="other"><span>Other institution</span></label>
+        </div>
+      </div>
+
+      <div id="brandUpload" style="display:none">
+        <p class="note">Upload your logo and campus photo below. Everything else on the cover stays the same.</p>
+
+        <div class="field" style="margin-top:0">
+          <label for="logoFile">College logo</label>
+          <input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp,image/svg+xml">
+          <p class="hint" id="logoHint">Using Kalinga University's logo. A PNG with a transparent background works best.</p>
+        </div>
+
+        <div class="field">
+          <label for="photoFile">Campus photo <span style="color:var(--muted);font-weight:400">(optional)</span></label>
+          <input type="file" id="photoFile" accept="image/png,image/jpeg,image/webp">
+          <p class="hint" id="photoHint">Using Kalinga University's campus photo.</p>
+        </div>
+
+        <button type="button" id="brandReset" class="quiet" style="margin-top:2px">Clear uploaded branding</button>
+      </div>
+    </fieldset>
+
     <fieldset>
       <legend>Cover design</legend>
       <p class="note">Pick a background. Your details are printed the same way on every design.</p>
@@ -348,6 +396,25 @@ const ASSETS = {
 };
 const W = 2480, H = 3508;
 const INK = "#000000", PLACEHOLDER = "#b3bcc9";
+
+/* Boxes the logo and campus photo occupy on the cover (measured from the PSD).
+   Any uploaded institution logo/photo is fitted into these same boxes, so the
+   rest of the layout never has to move. */
+const LOGO_BOX = { x: 459, y: 121, w: 1661, h: 367 };
+const PHOTO_BOX = { x: 647, y: 688, w: 1284, h: 1216 };
+function drawFit(ctx, img, box, mode) {
+  const iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
+  if (!iw || !ih) return;
+  if (mode === "cover") {
+    const scale = Math.max(box.w / iw, box.h / ih);
+    const sw = box.w / scale, sh = box.h / scale;
+    ctx.drawImage(img, (iw - sw) / 2, (ih - sh) / 2, sw, sh, box.x, box.y, box.w, box.h);
+  } else {
+    const scale = Math.min(box.w / iw, box.h / ih);
+    const dw = iw * scale, dh = ih * scale;
+    ctx.drawImage(img, box.x + (box.w - dw) / 2, box.y + (box.h - dh) / 2, dw, dh);
+  }
+}
 
 const STYLE = {
   label:  { weight: 800, family: "" },   // TT Firs Neue Bold in the PSD
@@ -613,8 +680,10 @@ function drawScene(ctx, s, id) {
     g.addColorStop(1, "rgba(255,255,255,.2)");
     ctx.fillStyle = g; ctx.fillRect(0, 1880, W, H - 1880);
   }
-  const put = (im, x, y) => { if (im && im.ok) ctx.drawImage(im, x, y); };
-  put(IMG.logo, 459, 121); put(IMG.photo, 647, 688); put(IMG.boxes, 933, 2710);
+  const logoImg = customLogo || IMG.logo, photoImg = customPhoto || IMG.photo;
+  if (logoImg && (logoImg.ok || logoImg.complete)) drawFit(ctx, logoImg, LOGO_BOX, "contain");
+  if (photoImg && (photoImg.ok || photoImg.complete)) drawFit(ctx, photoImg, PHOTO_BOX, "cover");
+  if (IMG.boxes && IMG.boxes.ok) ctx.drawImage(IMG.boxes, 933, 2710);
   ctx.restore();
 }
 function paintBackground(ctx, s, id) {
@@ -772,6 +841,100 @@ fontSel.addEventListener("change", () => {
   setFont(saved || "handwritten", false);
 }
 
+/* ---------- Institution branding (swap the logo / campus photo for another college) ---------- */
+const BRAND_KEY = "ku-cover-brand-v1";
+let customLogo = null, customPhoto = null;
+const DEFAULT_HEADER_LOGO = document.querySelector("img.logo").src;
+const brand = { logo: null, photo: null };   // data URLs, persisted when small enough
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const im = new Image();
+    im.onload = () => resolve(im);
+    im.onerror = reject;
+    im.src = src;
+  });
+}
+function saveBrand() {
+  try {
+    const json = JSON.stringify(brand);
+    if (json.length < 1_800_000) localStorage.setItem(BRAND_KEY, json);
+    else localStorage.removeItem(BRAND_KEY);
+  } catch (e) {}
+}
+function applyHeaderLogo() {
+  document.querySelector("img.logo").src = brand.logo || DEFAULT_HEADER_LOGO;
+}
+async function setBrandAsset(kind, dataUrl, filename) {
+  const hint = $(kind === "logo" ? "logoHint" : "photoHint");
+  if (!dataUrl) {
+    brand[kind] = null;
+    if (kind === "logo") { customLogo = null; applyHeaderLogo(); }
+    else customPhoto = null;
+    hint.textContent = kind === "logo" ? "Using Kalinga University's logo." : "Using Kalinga University's campus photo.";
+  } else {
+    try {
+      const img = await loadImage(dataUrl);
+      brand[kind] = dataUrl;
+      if (kind === "logo") { customLogo = img; applyHeaderLogo(); }
+      else customPhoto = img;
+      hint.textContent = `Using your uploaded ${kind === "logo" ? "logo" : "photo"}: ${filename}`;
+    } catch (e) {
+      hint.textContent = "Couldn't read that image file. Try a PNG or JPEG.";
+      return;
+    }
+  }
+  saveBrand();
+  bgCache.clear(); renderThumbs(); schedule();
+}
+function wireFileInput(inputId, kind) {
+  $(inputId).addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setBrandAsset(kind, reader.result, file.name);
+    reader.onerror = () => { $(kind === "logo" ? "logoHint" : "photoHint").textContent = "Couldn't read that file."; };
+    reader.readAsDataURL(file);
+  });
+}
+wireFileInput("logoFile", "logo");
+wireFileInput("photoFile", "photo");
+$("brandReset").addEventListener("click", () => {
+  $("logoFile").value = ""; $("photoFile").value = "";
+  setBrandAsset("logo", null); setBrandAsset("photo", null);
+  $("status").textContent = "Uploaded branding cleared."; $("status").className = "";
+});
+
+/* Kalinga University / Other institution switch: the upload fields only
+   appear once "Other institution" is picked. */
+const INST_KEY = "ku-cover-institution-v1";
+const showBrandPanel = show => { $("brandUpload").style.display = show ? "" : "none"; };
+function setInstitution(val, persist) {
+  val = val === "other" ? "other" : "kalinga";
+  const r = document.querySelector(`input[name="inst"][value="${val}"]`);
+  if (r) r.checked = true;
+  showBrandPanel(val === "other");
+  if (val === "kalinga") {
+    $("logoFile").value = ""; $("photoFile").value = "";
+    setBrandAsset("logo", null); setBrandAsset("photo", null);
+  } else if (!customLogo && !customPhoto) {
+    loadSavedBrand();   // bring back a previous upload, if this browser has one saved
+  }
+  if (persist) { try { localStorage.setItem(INST_KEY, val); } catch (e) {} }
+}
+document.querySelectorAll('input[name="inst"]').forEach(r => r.addEventListener("change", () => {
+  setInstitution(r.value, true);
+  $("status").textContent = ""; $("status").className = "";
+}));
+
+async function loadSavedBrand() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(BRAND_KEY) || "null"); } catch (e) {}
+  if (!saved) return;
+  if (saved.logo) await setBrandAsset("logo", saved.logo, "your saved logo");
+  if (saved.photo) await setBrandAsset("photo", saved.photo, "your saved photo");
+}
+
 /* ---------- Theme picker ---------- */
 const THEME_KEY = "ku-cover-theme-v1";
 const themeBox = $("themes");
@@ -898,6 +1061,10 @@ async function start() {
   const bgDone = loadArt();
   calibrate(); schedule();                 // first paint with whatever fonts exist
   await bgDone; schedule();
+  let savedInst = "kalinga";
+  try { savedInst = localStorage.getItem(INST_KEY) || "kalinga"; } catch (e) {}
+  setInstitution(savedInst, false);
+  if (savedInst === "other") await loadSavedBrand();
   await fontsDone;
   calibrate(); schedule();                 // repaint once web fonts are ready
 }
