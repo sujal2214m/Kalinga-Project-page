@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;800&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&amp;display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&amp;family=Carlito:wght@400;700&amp;display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #04386c;
@@ -210,6 +211,12 @@
       <legend>Cover design</legend>
       <p class="note">Pick a background. Your details are printed the same way on every design.</p>
       <div id="themes" class="themes" role="radiogroup" aria-label="Cover design"></div>
+
+      <div class="field">
+        <label for="font">Text style</label>
+        <select id="font"></select>
+        <p class="hint">Changes the look of all the printed text.</p>
+      </div>
     </fieldset>
 
     <fieldset>
@@ -331,14 +338,29 @@ const ASSETS = {
 const W = 2480, H = 3508;
 const INK = "#000000", PLACEHOLDER = "#b3bcc9";
 
-const LABEL_FAMILY = '"Outfit", "Arial Black", "Helvetica Neue", Arial, sans-serif';
-const COMIC_FAMILY = '"Comic Relief", "Comic Neue", "Comic Sans MS", "Comic Sans", sans-serif';
 const STYLE = {
-  label:  { weight: 800, family: LABEL_FAMILY },   // TT Firs Neue Bold in the PSD
-  comic:  { weight: 400, family: COMIC_FAMILY },   // Comic Sans MS in the PSD
-  comicB: { weight: 700, family: COMIC_FAMILY },
-  name:   { weight: 400, family: COMIC_FAMILY }
+  label:  { weight: 800, family: "" },   // TT Firs Neue Bold in the PSD
+  comic:  { weight: 400, family: "" },   // Comic Sans MS in the PSD
+  comicB: { weight: 700, family: "" },
+  name:   { weight: 400, family: "" }
 };
+const FONTS = [
+  { id: "handwritten", name: "Handwritten (original)",
+    label: '"Outfit", "Arial Black", "Helvetica Neue", Arial, sans-serif',
+    body:  '"Comic Relief", "Comic Neue", "Comic Sans MS", sans-serif' },
+  { id: "times", name: "Times New Roman", label: '"Times New Roman", "Liberation Serif", Times, Georgia, serif', body: '"Times New Roman", "Liberation Serif", Times, Georgia, serif' },
+  { id: "georgia", name: "Georgia", label: 'Georgia, "Liberation Serif", "Times New Roman", serif', body: 'Georgia, "Liberation Serif", "Times New Roman", serif' },
+  { id: "garamond", name: "Garamond", label: '"EB Garamond", Garamond, Georgia, serif', body: '"EB Garamond", Garamond, Georgia, serif' },
+  { id: "arial", name: "Arial", label: 'Arial, "Liberation Sans", "Arimo", Helvetica, sans-serif', body: 'Arial, "Liberation Sans", "Arimo", Helvetica, sans-serif' },
+  { id: "calibri", name: "Calibri", label: '"Calibri", "Carlito", "Segoe UI", sans-serif', body: '"Calibri", "Carlito", "Segoe UI", sans-serif' }
+];
+let fontId = "handwritten";
+function applyFont(id) {
+  const f = FONTS.find(x => x.id === id) || FONTS[0];
+  STYLE.label.family = f.label;
+  STYLE.comic.family = STYLE.comicB.family = STYLE.name.family = f.body;
+}
+applyFont(fontId);
 const CAPS = { label: 51, comic: 56, comicB: 56, name: 43.75 };   // cap heights in template px
 
 const DETAIL_X = 533;
@@ -709,6 +731,34 @@ document.querySelectorAll('input[name="kind"]').forEach(r => r.addEventListener(
   let saved = null;
   try { saved = localStorage.getItem(KIND_KEY); } catch (e) {}
   setKind(saved || "practical", false);
+}
+
+/* ---------- Text style (font) picker ---------- */
+const FONT_KEY = "ku-cover-font-v1";
+const fontSel = $("font");
+fontSel.innerHTML = FONTS.map(f => `<option value="${f.id}">${f.name}</option>`).join("");
+async function setFont(id, persist) {
+  if (!FONTS.some(f => f.id === id)) id = "handwritten";
+  fontId = id;
+  fontSel.value = id;
+  applyFont(id);
+  if (document.fonts) {
+    const f = FONTS.find(x => x.id === id);
+    const specs = [`400 40px ${f.label}`, `800 40px ${f.label}`, `400 40px ${f.body}`, `700 40px ${f.body}`];
+    try { await Promise.race([Promise.all(specs.map(s => document.fonts.load(s, "ABCabc0123-"))), new Promise(r => setTimeout(r, 1500))]); } catch (e) {}
+  }
+  calibrate();
+  if (persist) { try { localStorage.setItem(FONT_KEY, id); } catch (e) {} }
+  schedule();
+}
+fontSel.addEventListener("change", () => {
+  setFont(fontSel.value, true);
+  $("status").textContent = ""; $("status").className = "";
+});
+{
+  let saved = null;
+  try { saved = localStorage.getItem(FONT_KEY); } catch (e) {}
+  setFont(saved || "handwritten", false);
 }
 
 /* ---------- Theme picker ---------- */
