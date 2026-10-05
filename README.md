@@ -1,8 +1,8 @@
 # Kalinga University Practical / Assignment Cover Page Generator
 
-A free, browser-based tool for creating professional and print-ready **Practical** and **Assignment Cover Pages** for Kalinga University students.
+A modern, browser-based **Practical & Assignment Cover Page Generator** designed for Kalinga University students.
 
-Enter your academic and student details, choose a cover design and font, preview the page instantly, and download it as an A4 PDF.
+The tool lets students enter academic details, customize the cover page, preview it instantly, and generate a print-ready A4 document.
 
 🔗 **Live Demo:**  
 https://sujal2214m.github.io/Kalinga-Project-page/
@@ -11,28 +11,29 @@ https://sujal2214m.github.io/Kalinga-Project-page/
 
 ## ✨ Features
 
-- 📘 Generate Practical Cover Pages
-- 📝 Generate Assignment Cover Pages
-- 🎨 Multiple Cover Page Themes
-- 🔤 Multiple Font Styles
-- 👀 Real-time Cover Page Preview
-- 📄 A4 Print-ready PDF generation
-- 🧑‍🎓 Student Details
-- 📚 Academic and Course Details
-- 👨‍🏫 Faculty / Teacher Details
-- 🖼️ Kalinga University Branding
-- 💾 Save selected preferences in browser
-- 🧹 Clear personal details
-- 📱 Responsive design
-- ⚡ No backend required
-- 🔒 Client-side processing
-- 📊 Google Analytics 4 integration
+- 📘 Practical cover page generation
+- 📝 Assignment cover page generation
+- 🎨 Multiple cover page themes
+- 🔤 Multiple font styles
+- 👀 Real-time canvas preview
+- 📄 A4 print-ready output
+- 🧑‍🎓 Student information fields
+- 📚 Academic and course information
+- 👨‍🏫 Faculty / teacher information
+- 🖼️ University branding
+- 🧹 Clear entered details
+- 💾 Saves selected preferences in the browser
+- 📱 Responsive interface
+- ♿ Keyboard-friendly focus states
+- 🎞️ Reduced-motion support
+- ⚡ Client-side application
+- 🚫 No account or login required
 
 ---
 
 ## 🎓 Cover Page Types
 
-The generator currently supports two types of cover pages:
+The generator supports:
 
 ### Practical
 
@@ -48,18 +49,20 @@ ASSIGNMENT ON
 [Subject Name]
 ```
 
+A segmented selector lets users switch between the two formats.
+
 ---
 
-## 📋 Information You Can Enter
+## 📋 Details Supported
 
 ### Academic Details
 
 - Session
 - Semester
-- Subject Name
+- Subject
 - Program
 - Course Code
-- Faculty / Teacher Name
+- Faculty / Teacher
 
 ### Student Details
 
@@ -67,113 +70,124 @@ ASSIGNMENT ON
 - Roll Number
 - Enrollment Number
 
----
-
-## 🎨 Available Themes
-
-| Theme | Style |
-|---|---|
-| **Circuit** | Technical / Engineering |
-| **Ocean** | Modern |
-| **Hexagon** | Geometric |
-| **Blueprint** | Engineering |
-| **Sunrise** | Decorative |
-| **Confetti** | Colorful |
-| **Classic** | Traditional |
+The form includes validation and inline error messaging for invalid or incomplete fields.
 
 ---
 
-## 🔤 Font Options
+## 🎨 Cover Page Themes
 
-- Handwritten (Original)
+The project provides selectable visual themes with thumbnail previews.
+
+Current themes include:
+
+- Circuit
+- Ocean
+- Hexagon
+- Blueprint
+- Sunrise
+- Confetti
+- Classic
+
+Each theme is previewed using a canvas thumbnail before selection.
+
+---
+
+## 🔤 Font Selection
+
+The cover page supports multiple font choices, including:
+
+- Handwritten
 - Times New Roman
 - Georgia
 - Garamond
 - Arial
 - Calibri
 
-Web fonts used by the project include:
-
-- Outfit
-- Comic Relief
-- Comic Neue
-- EB Garamond
-- Carlito
+The interface also loads several web fonts for the application UI and cover rendering.
 
 ---
 
-## 👀 Live Preview
+## 🖥️ Modern Glass-Style UI
 
-The cover page is rendered on an HTML `<canvas>` while the user enters information.
+The latest interface uses a modern glass-inspired design with:
 
-The preview uses an A4 aspect ratio:
+- Glassmorphism panels
+- Backdrop blur
+- Rounded cards
+- Gradient background
+- Navy and gold visual branding
+- Responsive layout
+- Interactive controls
+- Soft shadows
+- Sticky preview area on desktop
+
+The header also contains university branding and a creator profile section.
+
+---
+
+## 👀 Live A4 Preview
+
+The cover is rendered using the **HTML Canvas API**.
+
+The canvas uses an A4 proportion:
 
 ```text
-2480 × 3508 px
+2480 × 3508
 ```
+
+The preview scales responsively while maintaining the same aspect ratio.
+
+The desktop layout displays the form and preview side-by-side, while smaller screens switch to a single-column layout.
 
 ---
 
-## 📄 PDF Generation
+## 📄 Print / PDF Workflow
 
-The application generates the final cover page directly in the browser.
-
-### Generation Workflow
+The project is designed around a simple workflow:
 
 ```text
 Enter Details
       ↓
-Choose Practical / Assignment
+Select Practical / Assignment
       ↓
 Choose Theme
       ↓
 Choose Font
       ↓
-Live Preview
+Preview Cover
       ↓
-Download PDF
+Generate / Download
       ↓
 Print
 ```
 
----
-
-## 💾 Browser Preferences
-
-The application uses browser `localStorage` to remember selected preferences, such as:
-
-- Practical / Assignment selection
-- Selected font
-- Selected theme
+The cover is rendered in the browser, so the core generation experience does not require a backend server.
 
 ---
 
+## 💾 Saved Preferences
 
+The application stores selected interface preferences locally in the browser.
 
-## 🔒 Privacy
+This allows preferences such as the selected:
 
-The project is designed primarily as a client-side application.
+- Cover type
+- Font
+- Theme
 
-The application does not require:
-
-- User accounts
-- Login
-- Backend server
-- Database
-
-Student information entered into the form is processed in the browser to generate the cover page.
+to remain available when the user returns to the tool.
 
 ---
 
 ## 📱 Responsive Design
 
-The interface is responsive and works across desktop and mobile devices.
+The application adapts to different screen sizes.
 
 ### Desktop
 
 ```text
 ┌────────────────────┬──────────────────────┐
-│    Input Form      │    Live Preview      │
+│     Input Form     │     A4 Preview       │
 │                    │                      │
 └────────────────────┴──────────────────────┘
 ```
@@ -184,9 +198,25 @@ The interface is responsive and works across desktop and mobile devices.
 ┌──────────────────────┐
 │      Input Form      │
 ├──────────────────────┤
-│    Live Preview      │
+│      A4 Preview      │
 └──────────────────────┘
 ```
+
+At smaller widths, the preview moves below the form and the desktop sticky behavior is removed.
+
+---
+
+## ♿ Accessibility & UX
+
+The interface includes:
+
+- Visible keyboard focus states
+- Form labels
+- Inline validation messages
+- Responsive controls
+- Reduced-motion support using `prefers-reduced-motion`
+- Large clickable controls
+- Clear visual selection states
 
 ---
 
@@ -198,44 +228,50 @@ The interface is responsive and works across desktop and mobile devices.
 - CSS3
 - JavaScript
 
-### Browser APIs
+### Browser APIs / Features
 
 - HTML Canvas API
 - LocalStorage API
+- File input
+- Responsive CSS
+- CSS backdrop filters
 
-### External Services
+### Fonts
 
 - Google Fonts
-- Google Analytics 4
-- GitHub Pages
+- System fallback fonts
 
 ---
 
-## 🏗️ How It Works
+## 🏗️ Application Architecture
+
+The application is primarily client-side:
 
 ```text
-User Input
-    │
-    ▼
-Data Validation
-    │
-    ▼
-Text Formatting
-    │
-    ▼
-Theme Selection
-    │
-    ▼
-Canvas Rendering
-    │
-    ▼
-Live Preview
-    │
-    ▼
-PDF Generation
-    │
-    ▼
-Download
+                ┌─────────────────┐
+                │   User Input    │
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │ Form Validation │
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │ Theme + Font    │
+                │ Selection       │
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │ Canvas Renderer │
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │ Live A4 Preview │
+                └────────┬────────┘
+                         ↓
+                ┌─────────────────┐
+                │ Final Output    │
+                └─────────────────┘
 ```
 
 ---
@@ -249,7 +285,7 @@ Kalinga-Project-page/
 └── README.md
 ```
 
-The main application is contained inside the HTML file.
+The main application is contained in the HTML file, including the interface, styling, canvas rendering logic, and client-side functionality.
 
 ---
 
@@ -261,21 +297,23 @@ The main application is contained inside the HTML file.
 git clone https://github.com/sujal2214m/Kalinga-Project-page.git
 ```
 
-### 2. Open the project directory
+### 2. Enter the project directory
 
 ```bash
 cd Kalinga-Project-page
 ```
 
-### 3. Run the project
+### 3. Open the project
 
-Open `index.html` in a modern web browser.
+Open `index.html` in a modern browser.
 
-You can also use the **Live Server** extension in VS Code.
+For development, you can also use the **Live Server** extension in VS Code.
 
 ---
 
 ## 🌐 Live Demo
+
+Try the generator online:
 
 **https://sujal2214m.github.io/Kalinga-Project-page/**
 
@@ -283,111 +321,94 @@ You can also use the **Live Server** extension in VS Code.
 
 ## 🎯 Project Objective
 
-The purpose of this project is to make creating practical and assignment cover pages easier for Kalinga University students.
+Creating practical and assignment cover pages manually can become repetitive for students.
 
-Instead of manually designing a cover page every time, students can generate a professional cover page within a few seconds.
+This project simplifies the process by providing a ready-to-use interface where students can:
 
-### Traditional Process
+```text
+Enter Information
+       ↓
+Customize Design
+       ↓
+Preview
+       ↓
+Generate
+       ↓
+Print
+```
+
+The goal is to reduce repetitive formatting work while providing a consistent and professional-looking cover page.
+
+---
+
+## ⚡ Why Use It?
+
+Instead of repeatedly editing a document template, students can use the generator to quickly create a cover page.
+
+### Traditional Workflow
 
 ```text
 Find Template
      ↓
-Edit Template
+Open Document
      ↓
-Enter Student Details
+Edit Details
      ↓
 Fix Alignment
      ↓
-Export PDF
+Export
      ↓
 Print
 ```
 
-### Using This Project
+### With This Generator
 
 ```text
 Enter Details
      ↓
-Choose Design
+Select Design
      ↓
 Preview
      ↓
-Download
+Generate
      ↓
 Print
 ```
 
 ---
 
-## ⚡ Why This Project?
 
-Students frequently need practical and assignment cover pages throughout their academic semesters.
-
-Creating and formatting them manually can be repetitive.
-
-This project simplifies the process by providing:
-
-- Ready-made designs
-- Automatic formatting
-- Live preview
-- A4 output
-- Quick PDF generation
-- No installation
-- No login
-
----
-
-## 🔮 Future Improvements
-
-Possible future features include:
-
-- 👤 Student Profile & Auto-fill
-- 📚 Project Report Cover Generator
-- 📜 Certificate Page Generator
-- 📝 Declaration Page Generator
-- 📋 Index Page Generator
-- 📄 Complete Project Report Generator
-- 🔗 QR Code Integration
-- 🎨 Custom Cover Editor
-- 🏫 Support for More Universities
-- 📊 Bulk Cover Generation
-- 💾 Export / Import Saved Profiles
-
----
 
 ## 🤝 Contributing
 
-Contributions, suggestions and bug reports are welcome.
+Contributions and suggestions are welcome.
 
-### 1. Fork the repository
-
-### 2. Create a new branch
+### Create a branch
 
 ```bash
 git checkout -b feature/new-feature
 ```
 
-### 3. Make your changes
-
-### 4. Commit your changes
+### Commit your changes
 
 ```bash
+git add .
 git commit -m "Add new feature"
 ```
 
-### 5. Push your branch
+### Push the branch
 
 ```bash
 git push origin feature/new-feature
 ```
 
-### 6. Create a Pull Request
+Then open a Pull Request.
 
 ---
 
-## 🐛 Reporting Issues
+## 🐛 Bug Reports & Suggestions
 
-If you find a bug or have a feature suggestion, create an issue in the GitHub repository.
+If you find a bug or have an idea for improving the project, open an issue in the GitHub repository.
 
 **Repository:**  
 https://github.com/sujal2214m/Kalinga-Project-page/
@@ -423,8 +444,8 @@ For commercial use, redistribution, or major modifications, please contact the d
 
 ---
 
-## ❤️ Made For Students
+## ❤️ Made for Students
 
 Made with ❤️ for **Kalinga University students**.
 
-**Enter → Customize → Preview → Download → Print**
+**Enter → Customize → Preview → Generate → Print**
