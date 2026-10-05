@@ -313,6 +313,31 @@
     .creator-text strong { font-size: 13px; }
   }
 
+
+  .issue-section { max-width: 1180px; margin: 24px auto 0; padding: 0 20px; }
+  .issue-glass {
+    background: var(--glass-soft);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 22px 26px;
+    display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap;
+    box-shadow: 0 1px 1px rgba(255, 255, 255, 0.5) inset, 0 16px 36px -22px rgba(4, 56, 108, 0.3);
+  }
+  .issue-text h2 { margin: 0; font-size: 18px; color: var(--navy); }
+  .issue-text p { margin: 4px 0 0; font-size: 14px; color: var(--muted); max-width: 60ch; }
+  .issue-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 20px; border-radius: 999px;
+    background: var(--navy); color: #fff; font-weight: 600; font-size: 14px; text-decoration: none;
+    transition: background-color 0.15s, transform 0.15s;
+  }
+  .issue-btn:hover { background: var(--navy-2); transform: translateY(-2px); }
+  .issue-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .issue-btn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  @media (max-width: 560px) { .issue-glass { flex-direction: column; align-items: flex-start; } }
+
   .site-footer { max-width: 1180px; margin: 8px auto 0; padding: 0 20px 40px; }
   .footer-glass {
     background: var(--glass-soft);
@@ -519,6 +544,19 @@
     </div>
   </section>
 </main>
+
+<section class="issue-section" aria-labelledby="issue-title">
+  <div class="issue-glass">
+    <div class="issue-text">
+      <h2 id="issue-title">Found a problem or want a change?</h2>
+      <p>If something looks wrong, doesn't work, or you'd like a new feature, raise an issue on GitHub and it will be looked at.</p>
+    </div>
+    <a class="issue-btn" href="https://github.com/sujal2214m/Kalinga-Project-page/issues" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><line x1="12" y1="7.5" x2="12" y2="13"/><circle cx="12" cy="16.5" r="0.6"/></svg>
+      Raise an issue
+    </a>
+  </div>
+</section>
 
 <footer class="site-footer">
   <div class="footer-glass">
