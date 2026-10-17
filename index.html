@@ -168,6 +168,37 @@
     background: rgba(255, 255, 255, 0.8);
   }
   .hint { margin: 5px 0 0; font-size: 13px; color: var(--muted); }
+  .roll-toggle {
+    display: flex; align-items: center; gap: 14px;
+    margin: 26px 0 0; padding: 12px 14px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+  }
+  .roll-toggle:hover { background: rgba(255, 255, 255, 0.7); }
+  .roll-toggle:has(input:checked) { border-color: var(--navy); }
+  .roll-toggle input {
+    appearance: none; -webkit-appearance: none;
+    flex: none; width: 24px; height: 24px; margin: 0; padding: 0;
+    background-color: #fff;
+    background-repeat: no-repeat; background-position: center; background-size: 16px 16px;
+    backdrop-filter: none; -webkit-backdrop-filter: none;
+    border: 2px solid var(--navy); border-radius: 7px;
+    cursor: pointer;
+  }
+  .roll-toggle input:hover { background-color: #fff; border-color: var(--navy); }
+  .roll-toggle input:checked {
+    background-color: var(--navy);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3.2L13 4.8' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+  .roll-toggle input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+  .roll-toggle .t { display: block; font-size: 15px; font-weight: 600; color: var(--navy); line-height: 1.25; }
+  .roll-toggle .s { display: block; margin-top: 2px; font-size: 13px; font-weight: 400; color: var(--muted); line-height: 1.3; }
+  .roll-note { display: none; margin: 6px 0 0; padding: 8px 12px; font-size: 13px; line-height: 1.4; color: #7a4b00; background: rgba(240, 160, 32, 0.16); border: 1px solid rgba(240, 160, 32, 0.55); border-radius: 10px; }
+  .roll-note.show { display: block; }
+  .field.off { opacity: 0.5; }
   .err { display: none; margin: 5px 0 0; font-size: 13px; color: var(--err); font-weight: 500; }
   .field.invalid input, .field.invalid select { border-color: var(--err); }
   .field.invalid .err { display: block; }
@@ -516,11 +547,17 @@
         <p class="err">Enter your name</p>
       </div>
 
+      <label class="roll-toggle" for="useRoll">
+        <input type="checkbox" id="useRoll" checked>
+        <span><span class="t">Add a roll number section</span><span class="s">Tick to print roll number boxes on the cover. Untick to leave them out.</span></span>
+      </label>
+
       <div class="row">
-        <div class="field">
-          <label for="roll">Roll no. <span style="color:var(--muted);font-weight:400">(optional)</span></label>
-          <input id="roll" name="roll" class="caps" maxlength="8" autocapitalize="characters" placeholder="Leave blank if none">
+        <div class="field" id="rollField">
+          <label for="roll">Roll no.</label>
+          <input id="roll" name="roll" class="caps" maxlength="8" autocapitalize="characters" placeholder="Roll number">
           <p class="err"></p>
+          <p class="roll-note" id="rollNote" role="status">You haven't filled in your roll number, so the roll number boxes will stay blank. You can write it by hand with a pen after printing.</p>
         </div>
         <div class="field">
           <label for="enroll">Enrollment no.</label>
@@ -657,6 +694,7 @@ const DEFAULTS = {
   name: "", roll: "", enroll: ""
 };
 const PERSONAL = ["name", "roll", "enroll"];
+let showRoll = true;
 const REQUIRED = ["session", "semester", "subject", "program", "code", "teacher", "name", "enroll"];
 
 /* ---------- Fonts: size text by cap height and stretch to the PSD's measured widths ---------- */
@@ -732,7 +770,7 @@ function values() {
   return {
     session: up(g("session")), semester: g("semester"), subject: up(g("subject")),
     program: up(g("program")), code: up(g("code")).replace(/ /g, ""), teacher: person(g("teacher")),
-    name: up(g("name")), roll: up(g("roll")).replace(/ /g, ""), enroll: up(g("enroll")).replace(/ /g, "")
+    name: up(g("name")), roll: showRoll ? up(g("roll")).replace(/ /g, "") : "", enroll: up(g("enroll")).replace(/ /g, "")
   };
 }
 
@@ -890,12 +928,12 @@ function drawScene(ctx, s, id) {
   const logoImg = customLogo || IMG.logo, photoImg = customPhoto || IMG.photo;
   if (logoImg && (logoImg.ok || logoImg.complete)) drawFit(ctx, logoImg, LOGO_BOX, "contain");
   if (photoImg && (photoImg.ok || photoImg.complete)) drawFit(ctx, photoImg, PHOTO_BOX, "cover");
-  if (IMG.boxes && IMG.boxes.ok) ctx.drawImage(IMG.boxes, 933, 2710);
+  if (showRoll && IMG.boxes && IMG.boxes.ok) ctx.drawImage(IMG.boxes, 933, 2710);
   ctx.restore();
 }
 function paintBackground(ctx, s, id) {
   if (s >= 1) { drawScene(ctx, s, id); return; }          // full size (PDF): draw directly
-  const key = id + "@" + s;                               // previews: draw once, reuse
+  const key = id + "@" + s + (showRoll ? "r" : "");                               // previews: draw once, reuse
   let c = bgCache.get(key);
   if (!c) {
     c = document.createElement("canvas");
@@ -932,15 +970,19 @@ function render(ctx, s, v, placeholders) {
   detail(0, "PROGRAM", 391, "- ", v.program, "PROGRAM");
   detail(1, "SEMESTER", 435, "- ", v.semester, "SEM");
   detail(2, "COURSE CODE", 572, "- ", v.code, "COURSE CODE");
-  detail(3, "ROLL NO", 337, ".-", null);
-  detail(4, "ENROLLMENT NO", 0, ".-", v.enroll, "00000000000000");
+  if (showRoll) {
+    detail(3, "ROLL NO", 337, ".-", null);
+    detail(4, "ENROLLMENT NO", 0, ".-", v.enroll, "00000000000000");
 
-  // Roll number, one character per box
-  const chars = Array.from(v.roll).slice(0, BOX.count);
-  const boxBase = BOX.midY + CAPS.comic / 2;
-  chars.forEach((ch, i) => {
-    line(ctx, s, [T("comic", ch)], BOX.left + BOX.first + i * BOX.pitch, boxBase, "center");
-  });
+    // Roll number, one character per box
+    const chars = Array.from(v.roll).slice(0, BOX.count);
+    const boxBase = BOX.midY + CAPS.comic / 2;
+    chars.forEach((ch, i) => {
+      line(ctx, s, [T("comic", ch)], BOX.left + BOX.first + i * BOX.pitch, boxBase, "center");
+    });
+  } else {
+    detail(3, "ENROLLMENT NO", 0, ".-", v.enroll, "00000000000000");   // no roll row: enrollment moves up
+  }
 
   // Submitted to / by
   line(ctx, s, [T("label", "SUBMITTED TO-", { sx: fitSx("label", "SUBMITTED TO-", 611) })], 566, 3118.5, "center");
@@ -990,9 +1032,35 @@ for (const k of FIELDS) {
     save(); schedule();
   });
 }
+/* ---------- Roll number section on/off ---------- */
+const ROLL_KEY = "ku-cover-useroll-v1";
+function updateRollUI() {
+  const on = $("useRoll").checked;
+  $("roll").disabled = !on;
+  $("rollField").classList.toggle("off", !on);
+  if (!on) $("rollField").classList.remove("invalid");
+  $("rollNote").classList.toggle("show", on && !$("roll").value.trim());
+}
+function setUseRoll(on, persist) {
+  showRoll = on;
+  $("useRoll").checked = on;
+  updateRollUI();
+  if (persist) { try { localStorage.setItem(ROLL_KEY, on ? "1" : "0"); } catch (e) {} }
+  schedule();
+}
+$("useRoll").addEventListener("change", () => {
+  setUseRoll($("useRoll").checked, true);
+  $("status").textContent = ""; $("status").className = "";
+});
+$("roll").addEventListener("input", updateRollUI);
+{
+  let saved = null;
+  try { saved = localStorage.getItem(ROLL_KEY); } catch (e) {}
+  setUseRoll(saved !== "0", false);
+}
 $("reset").addEventListener("click", () => {
   for (const k of PERSONAL) { $(k).value = ""; $(k).closest(".field").classList.remove("invalid"); }
-  save(); schedule();
+  save(); updateRollUI(); schedule();
   $("status").textContent = "Your name, roll number and enrollment number are cleared.";
   $("status").className = "";
   $("name").focus();
@@ -1243,7 +1311,9 @@ $("dl").addEventListener("click", async () => {
     const file = `Cover-${(v.roll || v.enroll).replace(/[^A-Z0-9_-]/gi, "")}-${v.code.replace(/[^A-Z0-9_-]/gi, "") || "lab"}.pdf`;
     saveBlob(pdf, file);
     status.className = "ok";
-    status.textContent = `Saved ${file}`;
+    status.textContent = showRoll && !v.roll
+      ? `Saved ${file}. You didn't fill in a roll number, so the boxes are blank. Write it by hand with a pen.`
+      : `Saved ${file}`;
   } catch (e) {
     status.className = "";
     status.textContent = "Could not make the PDF. Try again, or use a different browser.";
@@ -1255,6 +1325,7 @@ $("dl").addEventListener("click", async () => {
 
 /* ---------- Start ---------- */
 load();
+updateRollUI();
 async function start() {
   const withTimeout = (p, ms) => Promise.race([p, new Promise(r => setTimeout(r, ms))]);
   const specs = ['800 40px "Outfit"', '400 40px "Comic Relief"', '700 40px "Comic Relief"', '400 40px "Comic Neue"', '700 40px "Comic Neue"'];
